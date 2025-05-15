@@ -17,23 +17,16 @@ const DoorEntry: React.FC<DoorEntryProps> = ({ onUnlock }) => {
     {
       id: 1,
       name: 'Công Việc',
-      img: '/img/img1.jpeg',
+      img: '/img/img5.jpeg',
       color: '#dd5640',
       icon: '/img/icon1.png'
     },
     {
       id: 2,
       name: 'Sinh Hoạt',
-      img: '/img/img2.jpeg',
+      img: '/img/img6.jpeg',
       color: '#58696f',
       icon: '/img/icon2.png'
-    },
-    {
-      id: 3,
-      name: 'Sức Khỏe',
-      img: '/img/img3.jpeg',
-      color: '#a8da72',
-      icon: '/img/icon3.png'
     }
   ])
 
@@ -126,7 +119,7 @@ const DoorEntry: React.FC<DoorEntryProps> = ({ onUnlock }) => {
   }
 
   return (
-    <div className='min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-br from-stone-500 via-amber-900 to-stone-700'>
+    <div className='min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-br from-amber-100 via-amber-200 to-green-200'>
       {/* bg-gradient-to-br from-red-100 via-yellow-100 to-orange-100 */}
       <div
         ref={containerRef}
@@ -140,7 +133,7 @@ const DoorEntry: React.FC<DoorEntryProps> = ({ onUnlock }) => {
         {cards.map((card) => (
           <div
             key={card.id}
-            className='relative flex-shrink-0 w-60 h-80 rounded-lg shadow-lg cursor-pointer transform transition-transform duration-300 hover:scale-110 mt-8 mx-5 group'
+            className='relative flex-shrink-0 w-auto h-80 rounded-lg shadow-lg cursor-pointer transform transition-transform duration-300 hover:scale-110 mt-8 mx-5 group'
             style={{ boxShadow: '3px 4px 10px rgba(255,255,255,0.6)' }}
             onClick={() => handleCardClick(card)}
             title={card.name}
@@ -149,13 +142,10 @@ const DoorEntry: React.FC<DoorEntryProps> = ({ onUnlock }) => {
               src={card.img}
               alt={card.name}
               className='w-full h-full object-cover rounded-l-lg backdrop-blur-xl bg-white/30 hover:border-white/30'
-              style={{
-                boxShadow: '4px 3px 0 rgba(255, 255, 255, 1)'
-              }}
             />
-            <div className='absolute right-[-130px] bottom-0 inset-0 flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity'>
+            <div className='absolute left-[400px] bottom-0 inset-0 flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity'>
               <div
-                className='text-2xl text-white text-center p-3 rounded-l-3xl'
+                className='text-2xl text-white text-center p-3 rounded-lg'
                 style={{
                   backgroundColor: card.color,
                   boxShadow: '2px 1px 4px rgba(0, 0, 0, 0.5)'

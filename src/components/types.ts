@@ -22,3 +22,5 @@ export interface TodoListProps {
   onEdit: (id: number, newText: string) => void;
   onDelete: (id: number) => void;
 }
+
+
