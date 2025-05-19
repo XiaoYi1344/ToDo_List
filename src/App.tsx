@@ -42,30 +42,25 @@ function App({ onBackToDoor }: AppProps) {
   const duplicatedTodos = todos.filter(todo => todo.text === trimmedText)
 
   if (duplicatedTodos.length > 0) {
-    // Có công việc trùng tên
     const completedTodo = duplicatedTodos.find(todo => todo.completed === true)
 
     if (completedTodo) {
-      // Nếu có công việc trùng và đã hoàn thành
       const confirmDelete = window.confirm(
         `Công việc "${trimmedText}" đã hoàn thành. Bạn có muốn xóa công việc này và thêm công việc mới không?`
       )
 
       if (confirmDelete) {
-        // Người dùng chọn xóa => xóa công việc đó rồi thêm mới
         setTodos(prevTodos => [
           ...prevTodos.filter(todo => todo.id !== completedTodo.id),
           { id: Date.now(), text: trimmedText, completed: false }
         ])
         alert('Đã xóa công việc cũ và thêm công việc mới.')
       } else {
-        // Người dùng chọn không xóa => không thêm gì cả hoặc bạn có thể đưa công việc cũ lên đầu
         alert('Không thêm công việc mới.')
       }
 
       return
     } else {
-      // Nếu có công việc trùng tên nhưng chưa hoàn thành, đẩy công việc đó lên đầu
       const remainingTodos = todos.filter(todo => todo.text !== trimmedText)
       const reorderedTodos = [...duplicatedTodos, ...remainingTodos]
       setTodos(reorderedTodos)
@@ -75,14 +70,11 @@ function App({ onBackToDoor }: AppProps) {
     }
   }
 
-  // Nếu không trùng tên, thêm mới bình thường
   const newTodo = { id: Date.now(), text: trimmedText, completed: false }
   setTodos(prevTodos => [...prevTodos, newTodo])
 }
 
 
-
-  // Cập nhật trạng thái completed của todo
   const toggleTodo = (id: number) => {
     setTodos((prevTodos) =>
       prevTodos.map((todo) =>
@@ -117,8 +109,7 @@ function App({ onBackToDoor }: AppProps) {
         backgroundPosition: 'center'
       }}
     >
-      {/* Lớp phủ mờ (blur)
-      {backgroundImage && (
+      {/* {backgroundImage && (
         <div className='absolute inset-0 bg-black/40 backdrop-blur-xs z-0'></div>
       )} */}
       <div className='relative z-10 flex justify-center items-center pt-10 px-4 w-md md:w-[800px] lg:w-[1500px]'>

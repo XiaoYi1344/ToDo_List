@@ -42,7 +42,6 @@ const DoorEntry: React.FC<DoorEntryProps> = ({ onUnlock }) => {
   const [fullscreenImg, setFullscreenImg] = useState<string | null>(null)
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false)
   const [triggerRotation, setTriggerRotation] = useState<boolean>(false)
-
   const theme = isDarkMode ? 'dark' : 'light'
 
   const containerRef = useRef<HTMLDivElement>(null)
@@ -130,6 +129,17 @@ const DoorEntry: React.FC<DoorEntryProps> = ({ onUnlock }) => {
   useEffect(() => {
     console.log(`Bạn vừa chuyển chế độ: ${theme}`)
   }, [theme])
+
+  useEffect(() => {
+  localStorage.setItem('cards', JSON.stringify(cards))
+}, [cards])
+
+useEffect(() => {
+  const storedCards = localStorage.getItem('cards')
+  if (storedCards) {
+    setCards(JSON.parse(storedCards))
+  }
+}, [])
 
   const handleToggleMode = () => {
     setIsDarkMode(!isDarkMode)

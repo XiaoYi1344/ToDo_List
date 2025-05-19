@@ -57,7 +57,6 @@ const TodoForm = ({ onAdd }: TodoFormProps) => {
         onMouseEnter={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}
       >
-        {/* Lớp phủ đen */}
         <span
           style={{
             position: 'absolute',

@@ -7,7 +7,6 @@ const TodoItem = ({ todo, onToggle, onEdit, onDelete }: TodoItemProps) => {
   const [newText, setNewText] = useState(todo.text)
   const [color, setColor] = useState<string>('#ffffff')
 
-  // Bóng xác nhận xóa
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const deleteBtnRef = useRef<HTMLButtonElement>(null)
   const confirmBubbleRef = useRef<HTMLDivElement>(null)
@@ -107,7 +106,6 @@ const TodoItem = ({ todo, onToggle, onEdit, onDelete }: TodoItemProps) => {
         </span>
       )}
 
-      {/* Nút Edit / Save */}
       <button
         onClick={isEditing ? handleSave : () => setIsEditing(true)}
         className='px-3 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 flex items-center gap-2 w-[40px] md:w-auto'
@@ -116,7 +114,6 @@ const TodoItem = ({ todo, onToggle, onEdit, onDelete }: TodoItemProps) => {
         <span className='hidden md:inline'>{isEditing ? 'Save' : 'Edit'}</span>
       </button>
 
-      {/* Nút Delete / Cancel */}
       <div className='relative'>
         <button
           ref={deleteBtnRef}
@@ -133,7 +130,6 @@ const TodoItem = ({ todo, onToggle, onEdit, onDelete }: TodoItemProps) => {
           </span>
         </button>
 
-        {/* Bong bóng xác nhận xóa */}
         {!isEditing && (
           <div
             ref={confirmBubbleRef}
@@ -158,7 +154,7 @@ const TodoItem = ({ todo, onToggle, onEdit, onDelete }: TodoItemProps) => {
                 Không
               </button>
             </div>
-            {/* Tam giác nhỏ */}
+
             <div
               style={{
                 position: 'absolute',
