@@ -26,10 +26,10 @@ const DoorEntry: React.FC<DoorEntryProps> = ({ onUnlock }) => {
     {
       id: 2,
       name: 'Sinh Hoạt',
-      img_l: '/img/img6.jpeg',
-      img_d: '/img/img6_dark.jpeg',
+      img_l: '/img/img7.jpeg',
+      img_d: '/img/img7_dark.jpeg',
       color: '#58696f',
-      icon: '/img/icon2.png'
+      icon: '/img/icon7.png'
     }
   ])
 
