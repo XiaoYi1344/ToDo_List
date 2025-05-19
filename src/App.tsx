@@ -27,9 +27,7 @@ function App({ onBackToDoor }: AppProps) {
     if (savedCl) {
       setColor(savedCl)
     }
-
   }, [])
-
 
   useEffect(() => {
     if (todos.length > 0) {
@@ -38,9 +36,51 @@ function App({ onBackToDoor }: AppProps) {
   }, [todos])
 
   const addTodo = (text: string) => {
-    const newTodo = { id: Date.now(), text, completed: false }
-    setTodos((prevTodos) => [...prevTodos, newTodo])
+  const trimmedText = text.trim()
+
+  // Tìm các công việc trùng tên
+  const duplicatedTodos = todos.filter(todo => todo.text === trimmedText)
+
+  if (duplicatedTodos.length > 0) {
+    // Có công việc trùng tên
+    const completedTodo = duplicatedTodos.find(todo => todo.completed === true)
+
+    if (completedTodo) {
+      // Nếu có công việc trùng và đã hoàn thành
+      const confirmDelete = window.confirm(
+        `Công việc "${trimmedText}" đã hoàn thành. Bạn có muốn xóa công việc này và thêm công việc mới không?`
+      )
+
+      if (confirmDelete) {
+        // Người dùng chọn xóa => xóa công việc đó rồi thêm mới
+        setTodos(prevTodos => [
+          ...prevTodos.filter(todo => todo.id !== completedTodo.id),
+          { id: Date.now(), text: trimmedText, completed: false }
+        ])
+        alert('Đã xóa công việc cũ và thêm công việc mới.')
+      } else {
+        // Người dùng chọn không xóa => không thêm gì cả hoặc bạn có thể đưa công việc cũ lên đầu
+        alert('Không thêm công việc mới.')
+      }
+
+      return
+    } else {
+      // Nếu có công việc trùng tên nhưng chưa hoàn thành, đẩy công việc đó lên đầu
+      const remainingTodos = todos.filter(todo => todo.text !== trimmedText)
+      const reorderedTodos = [...duplicatedTodos, ...remainingTodos]
+      setTodos(reorderedTodos)
+
+      alert('Công việc này đã tồn tại và được đưa lên đầu danh sách.')
+      return
+    }
   }
+
+  // Nếu không trùng tên, thêm mới bình thường
+  const newTodo = { id: Date.now(), text: trimmedText, completed: false }
+  setTodos(prevTodos => [...prevTodos, newTodo])
+}
+
+
 
   // Cập nhật trạng thái completed của todo
   const toggleTodo = (id: number) => {
@@ -63,22 +103,29 @@ function App({ onBackToDoor }: AppProps) {
     setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id))
   }
 
+  const handleBackToDoor = () => {
+    console.log('*Thông báo*:Bạn vừa quay lại trang mở đầu. Mời bạn chọn hình nền và chế độ màn hình')
+    onBackToDoor()
+  }
+
   return (
     <div
-      className='App min-h-screen relative items-center justify-center flex'
+      className='App overflow-x-hidden min-h-screen relative items-center justify-center flex'
       style={{
         backgroundImage: backgroundImage ? `url(${backgroundImage})` : 'none',
         backgroundSize: 'cover',
         backgroundPosition: 'center'
       }}
     >
-      {/* ✅ Lớp phủ mờ (blur)
+      {/* Lớp phủ mờ (blur)
       {backgroundImage && (
         <div className='absolute inset-0 bg-black/40 backdrop-blur-xs z-0'></div>
       )} */}
-      <div className='relative z-10 flex justify-center items-center pt-10 px-4 w-4xl'>
-        <div className='backdrop-blur-md bg-white/10 shadow-lg rounded-xl p-6 w-full max-w-4xl text-white'
-        style={{border: `2px solid ${color}`,}}>
+      <div className='relative z-10 flex justify-center items-center pt-10 px-4 w-md md:w-[800px] lg:w-[1500px]'>
+        <div
+          className='backdrop-blur-md bg-white/10 shadow-lg rounded-xl p-6 w-full max-w-4xl text-white'
+          style={{ border: `2px solid ${color}` }}
+        >
           <header>
             <h1
               className='text-white text-3xl font-bold mb-4 text-center text-shadow-xs text-shadow-amber-50'
@@ -97,14 +144,13 @@ function App({ onBackToDoor }: AppProps) {
             onDelete={deleteTodo}
           />
           <button
-        onClick={onBackToDoor}
-        className="mb-4 px-4 py-2 bg-gray-800 text-white rounded shadow hover:bg-gray-700"
-      >
-        ← Quay lại màn hình mở cửa
-      </button>
+            onClick={handleBackToDoor}
+            className='mb-4 px-4 py-2 bg-gray-800 text-white rounded shadow hover:bg-gray-700'
+          >
+            ← <span className='hidden md:inline'>Quay lại màn hình mở cửa</span>
+          </button>
         </div>
       </div>
-
     </div>
   )
 }

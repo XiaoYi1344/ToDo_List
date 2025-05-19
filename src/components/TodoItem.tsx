@@ -19,7 +19,6 @@ const TodoItem = ({ todo, onToggle, onEdit, onDelete }: TodoItemProps) => {
     }
   }, [])
 
-  // Ẩn bóng xác nhận khi click ngoài
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -39,26 +38,33 @@ const TodoItem = ({ todo, onToggle, onEdit, onDelete }: TodoItemProps) => {
 
   const handleSave = () => {
     onEdit(todo.id, newText)
-    console.log(`ToDo mới lưu: ${todo.id} ${todo.text}`)
+
+    console.log(
+      `Todo sau khi sửa: ID = ${todo.id}, Name = "${newText}", Completed = ${todo.completed}\n` +
+        `Todo cũ: ID = ${todo.id}, Name = "${todo.text}", Completed = ${todo.completed}`
+    )
+
     setIsEditing(false)
   }
 
   const handleCancelEdit = () => {
     setNewText(todo.text)
-    console.log(`ToDo cũ trước khi sửa: ${todo.text}`)
+    console.log(
+      `Todo trước khi sửa: ID = ${todo.id}, Name = "${todo.text}", Completed = ${todo.completed}`
+    )
     setIsEditing(false)
   }
 
   const confirmDelete = () => {
     onDelete(todo.id)
     console.log(
-      `✅ Task đã bị xóa: ID = ${todo.id}, Name = "${todo.text}", Completed = ${todo.completed}`
+      `Todo đã bị xóa: ID = ${todo.id}, Name = "${todo.text}", Completed = ${todo.completed}`
     )
     setShowDeleteConfirm(false)
   }
 
   const cancelDelete = () => {
-    console.log(`❌ Đã hủy xóa task: ${todo.id}`)
+    console.log(`Bạn vừa hủy xóa Todo: ID = ${todo.id}, Name = "${todo.text}"`)
     setShowDeleteConfirm(false)
   }
 
@@ -69,13 +75,20 @@ const TodoItem = ({ todo, onToggle, onEdit, onDelete }: TodoItemProps) => {
         checked={todo.completed}
         onChange={() => {
           onToggle(todo.id)
-          console.log(
-            `✅ Task đã hoàn thành: ID = ${todo.id}, Name = "${todo.text}", Completed = ${!todo.completed}`
-          )
+          if (todo.completed) {
+            console.log(
+              `Task vừa hủy hoàn thành: ID = ${todo.id}, Name = "${todo.text}", Completed = ${!todo.completed}`
+            )
+          } else {
+            console.log(
+              `Task đã hoàn thành: ID = ${todo.id}, Name = "${todo.text}", Completed = ${!todo.completed}`
+            )
+          }
         }}
         className='form-checkbox h-4 w-4'
         style={{ accentColor: color }}
       />
+
       {isEditing ? (
         <input
           type='text'
@@ -85,9 +98,10 @@ const TodoItem = ({ todo, onToggle, onEdit, onDelete }: TodoItemProps) => {
         />
       ) : (
         <span
-          className={`flex-1 ${
+          className={`flex-1 font-bold text-black rounded-xl p-2 bg-white/70 ${
             todo.completed ? 'line-through text-gray-400' : ''
           }`}
+          // style={{ backgroundColor: color ? color : '#ffffff' }}
         >
           {todo.text}
         </span>
@@ -96,21 +110,27 @@ const TodoItem = ({ todo, onToggle, onEdit, onDelete }: TodoItemProps) => {
       {/* Nút Edit / Save */}
       <button
         onClick={isEditing ? handleSave : () => setIsEditing(true)}
-        className='px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600'
+        className='px-3 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 flex items-center gap-2 w-[40px] md:w-auto'
       >
-        <i className='fa-solid fa-pen-to-square mr-1'></i>
-        {isEditing ? 'Save' : 'Edit'}
+        <i className='fa-solid fa-pen-to-square'></i>
+        <span className='hidden md:inline'>{isEditing ? 'Save' : 'Edit'}</span>
       </button>
 
       {/* Nút Delete / Cancel */}
       <div className='relative'>
         <button
           ref={deleteBtnRef}
-          onClick={isEditing ? handleCancelEdit : () => setShowDeleteConfirm(!showDeleteConfirm)}
-          className='px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600'
+          onClick={
+            isEditing
+              ? handleCancelEdit
+              : () => setShowDeleteConfirm(!showDeleteConfirm)
+          }
+          className='px-3 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 flex items-center gap-2 w-[40px] md:w-auto'
         >
           <i className='fa-solid fa-eraser mr-1'></i>
-          {isEditing ? 'Cancel' : 'Delete'}
+          <span className='hidden md:inline'>
+            {isEditing ? 'Cancel' : 'Delete'}
+          </span>
         </button>
 
         {/* Bong bóng xác nhận xóa */}
@@ -118,7 +138,9 @@ const TodoItem = ({ todo, onToggle, onEdit, onDelete }: TodoItemProps) => {
           <div
             ref={confirmBubbleRef}
             className={`absolute bottom-full left-1/2 transform -translate-x-1/2 bg-yellow-100 text-gray-900 p-3 rounded-lg shadow-md transition-opacity duration-300 ${
-              showDeleteConfirm ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+              showDeleteConfirm
+                ? 'opacity-100 pointer-events-auto'
+                : 'opacity-0 pointer-events-none'
             } min-w-[200px] text-center z-10`}
           >
             <p className='mb-2 font-semibold'>Bạn có chắc muốn xóa?</p>
@@ -147,7 +169,7 @@ const TodoItem = ({ todo, onToggle, onEdit, onDelete }: TodoItemProps) => {
                 height: 0,
                 borderLeft: '6px solid transparent',
                 borderRight: '6px solid transparent',
-                borderTop: '6px solid #fef3c7',
+                borderTop: '6px solid #fef3c7'
               }}
             />
           </div>

@@ -41,7 +41,7 @@ const TodoForm = ({ onAdd }: TodoFormProps) => {
         placeholder='Thêm tên công việc'
         value={input}
         onChange={(e) => setInput(e.target.value)}
-        className='p-2 rounded shadow transition duration-500 hover:-translate-y-1 focus:px-4 focus:mx-3 focus:scale-110 hover:outline-2 hover:outline-black focus:outline-1 focus:outline-black bg-black/20'
+        className='w-[200px] md:w-[400px] lg:w-[500px] p-2 rounded shadow transition duration-500 hover:-translate-y-1 focus:px-4 focus:mr-6 focus:scale-110 hover:outline-2 hover:outline-black focus:outline-1 focus:outline-black bg-black/20'
         style={{
           fontFamily: `'Times New Roman', serif`,
           cursor: 'pointer'
@@ -49,7 +49,7 @@ const TodoForm = ({ onAdd }: TodoFormProps) => {
       />
       <button
         type='submit'
-        className='group flex items-center gap-1 active:scale-95 transition-all duration-200 text-white font-semibold px-2 py-2 rounded shadow-md relative overflow-hidden'
+        className='w-[50px] md:w-[70px] lg:w-[80px] group flex items-center gap-1 active:scale-95 transition-all duration-200 text-white font-semibold px-2 py-2 rounded shadow-md relative overflow-hidden ml-1'
         style={{
           backgroundColor: color,
           cursor: 'pointer'
@@ -82,9 +82,9 @@ const TodoForm = ({ onAdd }: TodoFormProps) => {
           }}
         >
           {icon ? (
-            <img src={icon} alt='icon' className='w-5 h-5' />
+            <img src={icon} alt='icon' className='w-5 h-5  hidden md:inline' />
           ) : (
-            <i className='fas fa-paw text-white text-lg'></i>
+            <i className='fas fa-paw text-white text-lg  hidden md:inline'></i>
           )}
           <span>Add</span>
         </div>
